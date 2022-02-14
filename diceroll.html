@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <title>WebDice</title>
+  <link href="css/diceroll.css" rel="stylesheet" type="text/css" title="s1" id="s1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="images/favicon.ico"/>
+  
+</head>
+
+
+<body>
+
+  <p id="musicDesc">Click this for music if autoplay is not enabled!</p><audio id="backgroundVolumeChrome" title="A music player that plays relaxing background music" controls><source src="audio/ron-gelinas-chillout-lounge-slow-grind.mp3" type="audio/mp3"></audio>
+
+  <nav>
+    <ul>
+      <li><a href="diceroll.html" title="Home Page">Home</a></li>
+      <li><a href="FAQ.html" title="Frequently Asked Questions">FAQ</a></li>
+      <li><a href="aboutus.html" title="Information about our web team">About Us</a></li>
+    </ul>
+
+    <form id="ddlToggleTheme">
+      <select id="mySelect" autocomplete="off" title="Toggles between light and dark mode for the theme">
+        <option value="css/diceroll.css">Light</option>
+        <option value="css/dicerolldark.css">Dark</option>
+      </select>
+    </form>
+
+  </nav>
+  
+
+  <p id="introText">
+    Hello <b id="usernameText"></b>! Welcome to our dice rolling app. This app will allow you to roll dice
+    in a visual manner in your web browser. Our app has several different features,
+    and we are continually improving it. 
+  </p>
+  <br>
+  <p id="videoIns">
+    Press play below to view a tutorial video on our page. 
+  </p>
+
+
+  <div id="videoTutorial" title="A video that explains how to use our dice roller">
+    <video id="video" controls width="560">
+        <source id="mp4" type="video/mp4" />
+    </video>
+</div>
+
+
+<div id="playButton" title="A button that plays the tutorial video" onclick="loadVideo('tutorial.mp4');">Play</div>
+
+  <form id="diceColor" title="A form that lets you switch between white and black dice">  
+    <b> What color would you like your Dice to be? -------------------------- </b>
+
+      <select id = "diceColorList" onchange = "value = this.value" >
+        <option value="white" selected> White </option>  
+        <option value="black"> Black </option>  
+      </select>
+
+
+  </form> 
+
+  
+  <form id="diceInputForm" onsubmit="return false;">  
+    <b> How many times would you like to roll the dice? --------------------</b>  
+
+    <input id="numberOfDiceInput" title="A form that lets you enter a positive integer to decide how many dice to roll" type="number" max="9999" min="1" onchange = "value = this.value" oninput="javascript: if (this.value.length > 4) this.value = this.value.slice(0,4);" onkeypress= " if(event.keyCode == 13) document.getElementById('rollButton').click()" >
+  
+  </form> 
+
+
+  <form id="diceEnhancementForm">  
+    <b> The enhancement you would like to add to each one of your dice - </b>  
+    <select id = "diceEnhancementList" title="A form that lets you add a flat bonus or penalty to each dice roll" onchange = "value = this.value" >  
+      <option value="-10"> -10 </option>  
+      <option value="-9"> -9 </option>  
+      <option value="-8"> -8 </option>  
+      <option value="-7"> -7 </option>  
+      <option value="-6"> -6 </option>  
+      <option value="-5"> -5 </option> 
+      <option value="-4"> -4 </option>  
+      <option value="-3"> -3 </option>  
+      <option value="-2"> -2 </option>  
+      <option value="-1"> -1 </option>
+      <option value="0" selected> +0 </option>
+      <option value="1"> +1 </option>  
+      <option value="2"> +2 </option>  
+      <option value="3"> +3 </option>  
+      <option value="4"> +4 </option>  
+      <option value="5"> +5 </option>  
+      <option value="6"> +6 </option> 
+      <option value="7"> +7 </option>  
+      <option value="8"> +8 </option>  
+      <option value="9"> +9 </option>  
+      <option value="10"> +10 </option>
+    </select>  
+  
+  </form> 
+
+
+
+  <form id="diceSizeForm">  
+    <b> The size of dice you would like to roll -------------------------------- </b>  
+    <select id = "diceSizeList" title="A form that lets you pick how many sides you would like on your dice" onchange = "value = this.value" >
+      <option value="4" selected> d4 </option>  
+      <option value="6"> d6 </option>  
+      <option value="8"> d8 </option>  
+      <option value="10"> d10 </option>  
+      <option value="12"> d12 </option>  
+      <option value="20"> d20 </option>  
+      <option value="100"> d100 </option>
+     
+      <input id="rollButton" title="A button that rolls the dice" type="button" value="Roll" onClick="buttonDelay(); rollDice()"/>
+  
+    </select>  
+
+  </form> 
+
+
+  <div id="diceSliderLabel">
+    <b>Roll Volume:</b>
+  </div>
+
+  <input autocomplete="off" title="A slider that lets you control the dice roll volume" id="volume-control" type="range" min="0" max="100" value="100"><br>
+
+  <div id="crashSliderLabel">
+    <b>Crash Volume:</b>
+  </div>
+
+  <input autocomplete="off" title="A slider that lets you control the crash sound volume" id="crashVolume-control" type="range" min="0" max="100" value="100"><br>
+
+  <div id="backgroundVolumeSliderLabel">
+    <b>Background Music Volume:</b>
+  </div>
+
+  <input autocomplete="off" title="A slider that lets you control the background music volume" id="backgroundVolume-control" type="range" min="0" max="100" value="5">
+
+  <div id="diceRolls">
+
+  </div>
+
+
+  <p id='messageResultText'></p>
+  <p id='messageAverageResultText'></p>
+  <p id='messageMaxResultText'></p>
+  <p id='messageMinResultText'></p>
+  <p id='messageAllRollsText'></p>
+
+
+  <div id="dieImages">
+    <img id="d4ImageLight" src="images/LightD4.png" height="100" width="100" alt="Light picture of a d4.">
+    <img id="d6ImageLight" src="images/LightD6.png" height="100" width="100" alt="Light picture of a d6."> 
+    <img id="d8ImageLight" src="images/LightD8.png" height="100" width="100" alt="Light picture of a d8.">
+    <img id="d10ImageLight" src="images/LightD10.png" height="100" width="100" alt="Light picture of a d10.">
+    <img id="d12ImageLight" src="images/LightD12.png" height="100" width="100" alt="Light picture of a d12.">
+    <img id="d20ImageLight" src="images/LightD20.png" height="100" width="100" alt="Light picture of a d20.">
+  </div>
+  <div id="dieImagesDark">
+    <img id="d4ImageDark" src="images/DarkD4.png" height="100" width="100" alt="Dark picture of a d4.">
+    <img id="d6ImageDark" src="images/DarkD6.png" height="100" width="100" alt="Dark picture of a d6.">
+    <img id="d8ImageDark" src="images/DarkD8.png" height="100" width="100" alt="Dark picture of a d8.">
+    <img id="d10ImageDark" src="images/DarkD10.png" height="100" width="100" alt="Dark picture of a d10.">
+    <img id="d12ImageDark" src="images/DarkD12.png" height="100" width="100" alt="Dark picture of a d12.">
+    <img id="d20ImageDark" src="images/DarkD20.png" height="100" width="100" alt="Dark picture of a d20.">
+  </div>
+
+
+  <script src="js/dice.js"></script>
+  <script src="js/webThemeToggle.js"></script>
+  <script src="js/backgroundSound.js"></script>
+  <script src="js/videoplayer.js"></script>
+  <script src="js/cookiescript.js"></script>
+  <script src="js/buttondelay.js"></script>
+
+  
+
+</body>
+
+</html>
